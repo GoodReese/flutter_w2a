@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html" charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>获取web指纹</title>
+    <script src="./hm_fingerprint.js"></script>
+</head>
+<script type="text/javascript">
+    function jsCallOCReturnMethod(){
+        //  js 获取 OC 接口返回值  有参数  123123123
+        Fingerprint.get(function (components) {
+            var ca = Fingerprint.x64hash128(components[0].value.toString(), 31);
+            var wg = Fingerprint.x64hash128(components[1].value.toString(), 31);
+            var pi = Fingerprint.x64hash128(components[2].value.toString(), 31);
+            var ao = Fingerprint.x64hash128(components[3].value.toString(), 31);
+            var se = Fingerprint.x64hash128(components[4].value.toString(), 31);
+            var ft = Fingerprint.x64hash128(components[5].value.toString(), 31);
+            var obj = {
+                ca: ca,
+                wg: wg,
+                pi: pi,
+                ao: ao,
+                se: se,
+                ft: ft
+            }
+            var str = JSON.stringify(obj)
+            let jsonString = window.prompt("jsCallOCReturnJsonStringMethod",str);
+        });
+    }
+</script>
+</html>
