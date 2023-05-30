@@ -36,10 +36,11 @@ class _MyAppState extends State<MyApp> {
     } on PlatformException {
       platformVersion = 'Failed to get platform version.';
     }
-    _flutterW2aPlugin.useFingerPrinting(true);
+    _flutterW2aPlugin.useFingerPrinting(false);
     _flutterW2aPlugin
         .init("https://w2a.flybirdnovel.link", "CompleteRegistration")
         .then((value) {
+      print("毁掉");
       print(value);
     });
 

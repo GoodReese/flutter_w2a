@@ -15,6 +15,7 @@ import com.huntmobi.web2app.utils.OutNetCallback;
 import android.app.Application;
 import android.content.Context;
 import java.util.Arrays;
+import android.util.Log;
 
 /** FlutterW2aPlugin */
 public class FlutterW2aPlugin implements FlutterPlugin, MethodCallHandler {
@@ -34,6 +35,7 @@ public class FlutterW2aPlugin implements FlutterPlugin, MethodCallHandler {
 
   @Override
   public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
+    Log.e("W2A", "草泥马==" + call.method);
     if (call.method.equals("getPlatformVersion")) {
       result.success("Android " + android.os.Build.VERSION.RELEASE);
     } else if (call.method.equals("useFingerPrinting")) {
@@ -41,14 +43,14 @@ public class FlutterW2aPlugin implements FlutterPlugin, MethodCallHandler {
       hm.useFingerPrinting(isEnabled);
       result.success("");
     } else if (call.method.equals("init")) {
-      String gateway = call.argument("gateway");
+      String gateway = call.argument("gateWay");
       String installEventName = call.argument("installEventName");
       Application application = (Application) mContext.getApplicationContext();
       hm.Init(application, gateway, installEventName, new DataCallback() {
           @Override
           public void CallbackDealwith(String[] strings) {
               if (strings != null){
-                result.success(strings);
+                result.success(Arrays.asList(strings));
               }
           }
       });

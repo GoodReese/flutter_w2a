@@ -46,14 +46,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import android.util.Log;
 
 public class hm {
     public  Application mApplication;
-    public static String domainName = "https://capi.bi4sight.com";
+    public static String domainName = "http://w2a.xxxx.link";
     public String mInstallEventName = "CompleteRegistration";
     public String debugStr = "";
     static hm mInstance = null;
-    private static boolean bWebviewEnable = true;
+    private static boolean bWebviewEnable = false;
     public AsyncCallback mcall = new AsyncCallback() {
         @Override
         public void callback(landreadinfo info) {
@@ -198,7 +199,7 @@ public class hm {
                                                         if (!TextUtils.isEmpty(realInfo.getData())){
                                                             PreferUtil.getInstance().putString("adv", realInfo.getData());
                                                             if (mdatacall != null){
-                                                                mdatacall.CallbackDealwith(AdvDataRead(realInfo.getData()));
+                                                                mdatacall.CallbackDealwith(AdvDataRead(realInfo.getData())); // 报错
                                                             }
                                                         }else{
                                                             if (mdatacall != null){
@@ -252,6 +253,7 @@ public class hm {
                 });
             }else{
                 //没有则返回。
+
             }
         }
     }
