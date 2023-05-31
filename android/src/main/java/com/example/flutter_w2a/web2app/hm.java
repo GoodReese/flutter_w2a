@@ -118,11 +118,13 @@ public class hm {
     private void inerInit(DataCallback callback){
         mdatacall = callback;
         if (!PreferUtil.getInstance().getBoolean("isFirst", false)){
+            Log.i("W2A", "第一次安装");
             //第一次安装
             PreferUtil.getInstance().putBoolean("isFirst", true);
             //判断剪切板中是否有落地数据，
             String w2aStr = getclipboard();
             if (!TextUtils.isEmpty(w2aStr)&&w2aStr.startsWith("w2a_data:")){
+                Log.i("W2A", "剪切板中有落地数据");
                 //有落地数据，写入本地，调用 新装api，把拿到的advdata数据写入本地
                 PreferUtil.getInstance().putString("w2a", w2aStr);
                 String url = domainName + UrlConfig.INSTALL;
@@ -174,6 +176,7 @@ public class hm {
                 });
             }else{
                 //调用落地页读取api，获取到w2a_data 数据写入本地,同时调用新装api
+                Log.i("W2A", "剪切板中没有落地数据 调用落地页读取api");
                 if (bWebviewEnable){
                     testprint();
                 }else{
@@ -183,19 +186,25 @@ public class hm {
                     HttpClientConnector.HttpConnectCommonAsync(2, url, content, new NetCallback() {
                         @Override
                         public void callbackDealwith(int currentType, Object info) {
+                            Log.i("W2A", "调用 LANDINGPAGEREAD 完毕");
                             if (info !=null&&info instanceof NetInfo){
+                                Log.i("W2A", "LANDINGPAGEREAD返回的数据：" + JSON.toJSONString(info));
                                 NetInfo realInfo = (NetInfo) info;
                                 if (realInfo.getCode() == 0){
+                                    Log.i("W2A", "调用 LANDINGPAGEREAD 正确");
                                     if (!TextUtils.isEmpty(realInfo.getData())){
                                         landingreadresponseinfo childObj = JSON.parseObject(realInfo.getData(), landingreadresponseinfo.class);
                                         PreferUtil.getInstance().putString("w2a", childObj.getW2a_data_encrypt());
+                                        Log.i("W2A", "调用 ONINSTALL");
                                         callOninstall(childObj.getW2a_data_encrypt(), new NetCallback() {
                                             @Override
                                             public void callbackDealwith(int currentType, Object info) {
-
+                                                Log.i("W2A", "调用 ONINSTALL 完成");
                                                 if (info !=null&&info instanceof NetInfo){
+                                                    Log.i("W2A", "ONINSTALL返回的数据：" + JSON.toJSONString(info));
                                                     NetInfo realInfo = (NetInfo) info;
                                                     if (realInfo.getCode() == 0){
+                                                        Log.i("W2A", "调用 ONINSTALL 正确");
                                                         if (!TextUtils.isEmpty(realInfo.getData())){
                                                             PreferUtil.getInstance().putString("adv", realInfo.getData());
                                                             if (mdatacall != null){
@@ -207,6 +216,7 @@ public class hm {
                                                             }
                                                         }
                                                     }else{
+                                                        Log.i("W2A", "调用 ONINSTALL 出错");
                                                         if (mdatacall != null){
                                                             mdatacall.CallbackDealwith(null);
                                                         }
@@ -224,11 +234,13 @@ public class hm {
 
             }
         }else{
+            Log.i("W2A", "非新装用户，判断是是否本地有落地数据，有调用会话api");
             //非新装用户，判断是是否本地有落地数据，有调用会话api
             String w2aStr = PreferUtil.getInstance().getString("w2a","");
             if(!TextUtils.isEmpty(w2aStr)){
                 //调用会话api
                 String url = domainName + UrlConfig.SESSION;
+                Log.i("W2A", "调用链接" + url);
                 sessioninfo info = new sessioninfo();
                 sessioninfo.DeviceId deviceId = new sessioninfo.DeviceId();
                 deviceId.setAndroid_ID(NetworkUtil.getAndroidId());
@@ -244,6 +256,7 @@ public class hm {
                     public void callbackDealwith(int currentType, Object info) {
 
                         if (info !=null&&info instanceof NetInfo){
+                            Log.i("W2A", "返回的数据：" + JSON.toJSONString(info));
                             NetInfo realInfo = (NetInfo) info;
                             if (realInfo.getCode() == 0){
 
