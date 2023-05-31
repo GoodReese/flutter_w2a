@@ -189,6 +189,7 @@ public class hm {
                     String url = domainName + UrlConfig.LANDINGPAGEREAD;
                     landreadinfo info = new landreadinfo();
                     String content = JSON.toJSONString(info);;
+                    Log.i("W2A", " LANDINGPAGEREAD 上传的参数: " + content);
                     HttpClientConnector.HttpConnectCommonAsync(2, url, content, new NetCallback() {
                         @Override
                         public void callbackDealwith(int currentType, Object info) {
