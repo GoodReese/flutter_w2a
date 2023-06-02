@@ -122,65 +122,65 @@ public class hm {
             //第一次安装
             PreferUtil.getInstance().putBoolean("isFirst", true);
             //判断剪切板中是否有落地数据，
-            // String w2aStr = getclipboard();
-//             if (!TextUtils.isEmpty(w2aStr)&&w2aStr.startsWith("w2a_data:")) {
-//                 Log.i("W2A", "剪切板中有落地数据");
-//                 //有落地数据，写入本地，调用 新装api，把拿到的advdata数据写入本地
-//                 PreferUtil.getInstance().putString("w2a", w2aStr);
-//                 String url = domainName + UrlConfig.INSTALL;
-//                 InstallInfo info = new InstallInfo();
-//                 info.setW2a_data_encrypt(w2aStr);
-//                 InstallInfo.DeviceId deviceId = new InstallInfo.DeviceId();
-//                 deviceId.setAndroid_ID(NetworkUtil.getAndroidId());
-//                 deviceId.setImei(NetworkUtil.getImei());
-//                 deviceId.setIdfa("");
-//                 deviceId.setIdfv("");
-//                 deviceId.setAdvertiser_ID("");
-//                 info.setDevice_id(deviceId);
-//                 InstallInfo.DeviceInfo deviceInfo = new InstallInfo.DeviceInfo();
-//                 deviceInfo.setBrand(NetworkUtil.getBrand());
-//                 deviceInfo.setLanguage(NetworkUtil.getLanguage());
-//                 deviceInfo.setModel(NetworkUtil.getModel());
-//                 deviceInfo.setScreenSize(NetworkUtil.getScreenSize());
-//                 deviceInfo.setOsVersion(NetworkUtil.getOsVersion());
+            String w2aStr = getclipboard();
+            if (!TextUtils.isEmpty(w2aStr)&&w2aStr.startsWith("w2a_data:")) {
+                Log.i("W2A", "剪切板中有落地数据");
+                //有落地数据，写入本地，调用 新装api，把拿到的advdata数据写入本地
+                PreferUtil.getInstance().putString("w2a", w2aStr);
+                String url = domainName + UrlConfig.INSTALL;
+                InstallInfo info = new InstallInfo();
+                info.setW2a_data_encrypt(w2aStr);
+                InstallInfo.DeviceId deviceId = new InstallInfo.DeviceId();
+                deviceId.setAndroid_ID(NetworkUtil.getAndroidId());
+                deviceId.setImei(NetworkUtil.getImei());
+                deviceId.setIdfa("");
+                deviceId.setIdfv("");
+                deviceId.setAdvertiser_ID("");
+                info.setDevice_id(deviceId);
+                InstallInfo.DeviceInfo deviceInfo = new InstallInfo.DeviceInfo();
+                deviceInfo.setBrand(NetworkUtil.getBrand());
+                deviceInfo.setLanguage(NetworkUtil.getLanguage());
+                deviceInfo.setModel(NetworkUtil.getModel());
+                deviceInfo.setScreenSize(NetworkUtil.getScreenSize());
+                deviceInfo.setOsVersion(NetworkUtil.getOsVersion());
 
-//                 info.setDevice_info(deviceInfo);
-//                 info.setEvent_name(mInstallEventName);
-//                 String content = JSON.toJSONString(info);
-//                 Log.i("W2A", "剪贴板 调用 ONINSTALL 参数：" + content);
-//                 HttpClientConnector.HttpConnectCommonAsync(1, url, content, new NetCallback() {
-//                     @Override
-//                     public void callbackDealwith(int currentType, Object info) {
-//                         if (info !=null&&info instanceof NetInfo){
-//                             Log.i("W2A", "剪贴板 调用 ONINSTALL 返回：" + JSON.toJSONString(info));
-//                             NetInfo realInfo = (NetInfo) info;
+                info.setDevice_info(deviceInfo);
+                info.setEvent_name(mInstallEventName);
+                String content = JSON.toJSONString(info);
+                Log.i("W2A", "剪贴板 调用 ONINSTALL 参数：" + content);
+                HttpClientConnector.HttpConnectCommonAsync(1, url, content, new NetCallback() {
+                    @Override
+                    public void callbackDealwith(int currentType, Object info) {
+                        if (info !=null&&info instanceof NetInfo){
+                            Log.i("W2A", "剪贴板 调用 ONINSTALL 返回：" + JSON.toJSONString(info));
+                            NetInfo realInfo = (NetInfo) info;
 
-//                             if (realInfo.getCode() == 0){
-//                                 Log.i("W2A", "剪贴板 调用 ONINSTALL 成功");
-//                                 if (!TextUtils.isEmpty(realInfo.getData())){
-//                                     Log.i("W2A", "剪贴板 调用 ONINSTALL 成功 有数据");
-// //                                    advinfo realObj = JSON.parseObject(realInfo.getData(), advinfo.class);
-//                                     PreferUtil.getInstance().putString("adv", realInfo.getData());
-//                                     if (callback != null){
-//                                         callback.CallbackDealwith(AdvDataRead(realInfo.getData()));
-//                                     }
+                            if (realInfo.getCode() == 0){
+                                Log.i("W2A", "剪贴板 调用 ONINSTALL 成功");
+                                if (!TextUtils.isEmpty(realInfo.getData())){
+                                    Log.i("W2A", "剪贴板 调用 ONINSTALL 成功 有数据");
+//                                    advinfo realObj = JSON.parseObject(realInfo.getData(), advinfo.class);
+                                    PreferUtil.getInstance().putString("adv", realInfo.getData());
+                                    if (callback != null){
+                                        callback.CallbackDealwith(AdvDataRead(realInfo.getData()));
+                                    }
 
-//                                 }else{
-//                                     Log.i("W2A", "剪贴板 调用 ONINSTALL 成功 没数据");
-//                                     if (callback != null){
-//                                         callback.CallbackDealwith(null);
-//                                     }
-//                                 }
-//                             }else{
-//                                 Log.i("W2A", "剪贴板 调用 ONINSTALL 出错");
-//                                 if (callback != null){
-//                                     callback.CallbackDealwith(null);
-//                                 }
-//                             }
-//                         }
-//                     }
-//                 });
-//             } else {
+                                }else{
+                                    Log.i("W2A", "剪贴板 调用 ONINSTALL 成功 没数据");
+                                    if (callback != null){
+                                        callback.CallbackDealwith(null);
+                                    }
+                                }
+                            }else{
+                                Log.i("W2A", "剪贴板 调用 ONINSTALL 出错");
+                                if (callback != null){
+                                    callback.CallbackDealwith(null);
+                                }
+                            }
+                        }
+                    }
+                });
+            } else {
                 //调用落地页读取api，获取到w2a_data 数据写入本地,同时调用新装api
                 Log.i("W2A", "剪切板中没有落地数据 调用落地页读取api");
                 if (bWebviewEnable){
@@ -239,7 +239,7 @@ public class hm {
                 }
 
 
-            // }
+            }
         }else{
             Log.i("W2A", "非新装用户，判断是是否本地有落地数据，有调用会话api");
             //非新装用户，判断是是否本地有落地数据，有调用会话api
